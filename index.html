@@ -20,7 +20,7 @@
             position: relative;
         }
 
-        /* Bilibili 视频背景的样式 */
+        /* 视频背景的样式 */
         .background-video {
             position: absolute;
             top: 0;
@@ -29,6 +29,7 @@
             height: 100%;
             z-index: -1; /* 使视频在内容下面 */
             pointer-events: none; /* 防止点击事件影响视频 */
+            object-fit: cover; /* 使视频覆盖整个背景区域 */
         }
 
         /* 按钮基础样式 */
@@ -59,6 +60,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+            text-align: center;
         }
 
         /* 模态窗口内容的样式 */
@@ -70,7 +72,6 @@
             width: 80%;
             max-width: 600px;
             border-radius: 10px;
-            text-align: center;
         }
 
         /* 模态窗口中的图片样式 */
@@ -107,8 +108,8 @@
     </style>
 </head>
 <body>
-    <!-- Bilibili 视频背景 -->
-    <iframe class="background-video" src="https://player.bilibili.com/player.html?bvid=BV1Ky4y1q7n4&autoplay=1" frameborder="0" allowfullscreen></iframe>
+    <!-- Veed 视频背景 -->
+    <iframe class="background-video" id="backgroundVideo" src="https://www.veed.io/embed/d5aefa01-4c79-4f0b-8c43-de6cf716e1bd?autoplay=1&muted=1" frameborder="0" allowfullscreen></iframe>
 
     <!-- 按钮容器 -->
     <div class="button-container">
@@ -117,7 +118,17 @@
         <button class="button button3">暂未设置</button>
     </div>
 
-    <!-- 模态窗口 -->
+    <!-- 音量选择提示模态窗口 -->
+    <div id="volumeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>是否开启音量？</p>
+            <button id="volumeOn" class="button button1">开启音量</button>
+            <button id="volumeOff" class="button button2">保持静音</button>
+        </div>
+    </div>
+
+    <!-- 加入我们模态窗口 -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -129,29 +140,45 @@
     <script>
         // 获取模态窗口、按钮和关闭按钮的元素
         var modal = document.getElementById("myModal");
+        var volumeModal = document.getElementById("volumeModal");
         var btn = document.getElementById("joinUsBtn");
-        var span = document.getElementsByClassName("close")[0];
-        var wxBtn = document.getElementById("openWxMiniApp");
+        var volumeOnBtn = document.getElementById("volumeOn");
+        var volumeOffBtn = document.getElementById("volumeOff");
+        var span = document.getElementsByClassName("close");
+        var backgroundVideo = document.getElementById("backgroundVideo");
+
+        // 显示音量选择模态窗口
+        window.onload = function() {
+            volumeModal.style.display = "flex";
+        }
 
         // 点击“加入我们”按钮时显示模态窗口
         btn.onclick = function() {
             modal.style.display = "flex";
         }
 
-        // 点击“打开微信小程序”按钮时打开二维码的模态窗口
-        wxBtn.onclick = function() {
-            window.open('https://example.com/path-to-wechat-mini-program-qrcode.jpg', '_blank');
+        // 点击“开启音量”按钮时取消静音
+        volumeOnBtn.onclick = function() {
+            backgroundVideo.src = backgroundVideo.src.replace("muted=1", "muted=0");
+            volumeModal.style.display = "none";
+        }
+
+        // 点击“保持静音”按钮时保持静音
+        volumeOffBtn.onclick = function() {
+            volumeModal.style.display = "none";
         }
 
         // 点击关闭按钮时隐藏模态窗口
-        span.onclick = function() {
-            modal.style.display = "none";
+        for (var i = 0; i < span.length; i++) {
+            span[i].onclick = function() {
+                this.parentElement.parentElement.style.display = "none";
+            }
         }
 
         // 点击模态窗口外部时隐藏模态窗口
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == modal || event.target == volumeModal) {
+                event.target.style.display = "none";
             }
         }
     </script>
