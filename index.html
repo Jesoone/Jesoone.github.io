@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; /* 隐藏页面滚动条 */
             position: relative;
         }
 
@@ -41,7 +41,7 @@
             cursor: pointer;
         }
 
-         /* 按钮容器，放置在右上角 */
+        /* 按钮容器，放置在右上角 */
         .button-container {
             position: fixed;
             right: 20px;
@@ -88,12 +88,54 @@
             border-radius: 10px;
         }
 
+        /* 模态窗口的基础样式 */
+        .modal-xxx {
+            background-color: white; /* 设置模态窗口的背景颜色为白色 */
+            margin: auto; /* 自动设置外边距，以使模态窗口在其容器中水平和垂直居中对齐 */
+            padding: 20px; /* 设置模态窗口内部的填充（内边距）为20像素 */
+            border: 1px solid #888; /* 设置模态窗口的边框为1像素宽，颜色为灰色（#888） */
+            width: 600px; /* 设置模态窗口的固定宽度为600像素 */
+            height: 400px; /* 设置模态窗口的固定高度为400像素 */
+            border-radius: 10px; /* 设置模态窗口的边角圆角半径为10像素 */
+            text-align: center; /* 设置模态窗口内文本的水平对齐方式为居中 */
+            overflow: hidden; /* 隐藏模态窗口内超出的内容 */
+        }
+
+        /* 全屏 iframe 样式 */
+        .fullscreen-iframe {
+            display: none; /* 初始时隐藏 iframe */
+            position: fixed; /* 固定定位以覆盖整个屏幕 */
+            top: 0;
+            left: 0;
+            width: 100vw; /* 视口宽度的100% */
+            height: 100vh; /* 视口高度的100% */
+            border: none; /* 去除边框 */
+            z-index: 1000; /* 确保 iframe 在最上层 */
+            overflow: hidden; /* 隐藏超出 iframe 边界的内容 */
+        }
+
+        /* 返回按钮样式 */
+        .back-button {
+            display: none; /* 初始时隐藏按钮 */
+            position: fixed; /* 固定定位 */
+            top: 10px; /* 顶部距离 */
+            left: 10px; /* 左侧距离 */
+            padding: 10px 20px;
+            background-color: #333; /* 背景颜色 */
+            color: white; /* 字体颜色 */
+            border: none; /* 去除边框 */
+            border-radius: 5px; /* 圆角 */
+            cursor: pointer; /* 鼠标悬停时显示手型光标 */
+            z-index: 1001; /* 确保按钮在 `iframe` 之上 */
+        }
+
         /* 关闭按钮的样式 */
         .close {
             color: #aaa;
-            float: right;
             font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
+            align-self: flex-end;
         }
 
         /* 关闭按钮的悬停样式 */
@@ -101,9 +143,7 @@
         .close:focus {
             color: black;
             text-decoration: none;
-            cursor: pointer;
         }
-
     </style>
 </head>
 <body>
@@ -115,39 +155,86 @@
     <!-- 按钮容器 -->
     <div class="button-container">
         <button class="button button1" id="joinUsBtn">加入我们</button>
-        <button class="button button2">还没想好</button>
-        <button class="button button3">还没想好</button>
+        <button class="button button2" id="viewSheetBtn">查看表格</button>
+        <button class="button button3" id="button3">还没想好</button>
     </div>
 
-    <!-- 模态窗口 -->
-    <div id="myModal" class="modal">
+    <!-- 加入我们模态窗口 -->
+    <div id="joinUsModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" id="closeJoinUsModal">&times;</span>
             <img src="https://s3.bmp.ovh/imgs/2024/07/23/2f916539ea69276c.jpg" alt="Join Us">
+        </div>
+    </div>
+
+    <!-- 查看表格的全屏 iframe -->
+    <iframe id="fullscreenIframe" class="fullscreen-iframe" src="https://kdocs.cn/l/ca3XNxv27agT" title="WPS 表格"></iframe>
+
+    <!-- 返回按钮 -->
+    <button id="backButton" class="back-button">返回</button>
+
+    <!-- 按钮3模态窗口 -->
+    <div id="button3Modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeButton3Modal">&times;</span>
+            <p>这里是按钮3的内容。</p>
         </div>
     </div>
 
     <!-- JavaScript 代码 -->
     <script>
         // 获取模态窗口、按钮和关闭按钮的元素
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("joinUsBtn");
-        var span = document.getElementsByClassName("close")[0];
+        var joinUsModal = document.getElementById("joinUsModal");
+        var fullscreenIframe = document.getElementById("fullscreenIframe");
+        var backButton = document.getElementById("backButton");
+        var button3Modal = document.getElementById("button3Modal");
+
+        var btn1 = document.getElementById("joinUsBtn");
+        var btn2 = document.getElementById("viewSheetBtn");
+        var btn3 = document.getElementById("button3");
+
+        var closeJoinUsModal = document.getElementById("closeJoinUsModal");
+        var closeButton3Modal = document.getElementById("closeButton3Modal");
 
         // 点击“加入我们”按钮时显示模态窗口
-        btn.onclick = function() {
-            modal.style.display = "flex";
+        btn1.onclick = function() {
+            joinUsModal.style.display = "flex";
+        }
+
+        // 点击“查看表格”按钮时显示全屏 iframe 和返回按钮
+        btn2.onclick = function() {
+            fullscreenIframe.style.display = "block";
+            backButton.style.display = "block";
+            document.body.style.overflow = "hidden"; // 禁用页面滚动
+        }
+
+        // 点击返回按钮时隐藏全屏 iframe 和返回按钮
+        backButton.onclick = function() {
+            fullscreenIframe.style.display = "none";
+            backButton.style.display = "none";
+            document.body.style.overflow = "auto"; // 恢复页面滚动
+        }
+
+        // 点击按钮3时显示模态窗口
+        btn3.onclick = function() {
+            button3Modal.style.display = "flex";
         }
 
         // 点击关闭按钮时隐藏模态窗口
-        span.onclick = function() {
-            modal.style.display = "none";
+        closeJoinUsModal.onclick = function() {
+            joinUsModal.style.display = "none";
+        }
+
+        closeButton3Modal.onclick = function() {
+            button3Modal.style.display = "none";
         }
 
         // 点击模态窗口外部时隐藏模态窗口
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == joinUsModal) {
+                joinUsModal.style.display = "none";
+            } else if (event.target == button3Modal) {
+                button3Modal.style.display = "none";
             }
         }
     </script>
