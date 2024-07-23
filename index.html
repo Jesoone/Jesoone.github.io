@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>超越巅峰</title>
+    <title>活动报名系统</title>
     <link rel="icon" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg" type="image/x-icon"/>
     <style>
         /* 全局样式 */
@@ -116,6 +116,29 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
+        /* 下拉菜单样式 */
+        .form-select {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        /* 按钮容器样式 */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            flex: 1;
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +164,11 @@
             <button class="button" id="tenPeople">10人</button>
             <button class="button" id="twentyFivePeople">25人</button>
             <div id="tableContainer"></div>
+            <div class="button-group">
+                <button class="button button2" id="adminBtn">管理员模式</button>
+                <button class="button button1" id="signupBtn">报名</button>
+                <button class="button button3" id="cancelSignupBtn">撤销报名</button>
+            </div>
         </div>
     </div>
 
@@ -150,7 +178,7 @@
             <span class="close" id="signupClose">&times;</span>
             <h2>报名</h2>
             <input type="text" id="roleId" class="form-input" placeholder="角色ID">
-            <select id="roleClass" class="form-input">
+            <select id="roleClass" class="form-select">
                 <option value="法师">法师</option>
                 <option value="术士">术士</option>
                 <option value="盗贼">盗贼</option>
@@ -161,12 +189,22 @@
                 <option value="战士">战士</option>
                 <option value="猎人">猎人</option>
             </select>
-            <select id="role" class="form-input">
+            <select id="role" class="form-select">
                 <option value="坦克">坦克</option>
                 <option value="输出">输出</option>
                 <option value="治疗">治疗</option>
             </select>
-            <button class="button" id="submitSignup">提交报名</button>
+            <button class="button button1" id="submitSignup">提交报名</button>
+        </div>
+    </div>
+
+    <!-- 管理员模式模态窗口 -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="adminClose">&times;</span>
+            <h2>管理员模式</h2>
+            <input type="password" id="adminPassword" class="form-input" placeholder="请输入管理指令">
+            <button class="button button1" id="adminLoginBtn">登录</button>
         </div>
     </div>
 
@@ -177,67 +215,70 @@
     </video>
 
     <script>
-        // 模态窗口的元素获取
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("joinUsBtn");
-        var span = document.getElementsByClassName("close")[0];
-
-        var eventSignupModal = document.getElementById("eventSignupModal");
+        // 获取按钮和模态窗口
+        var joinUsBtn = document.getElementById("joinUsBtn");
         var eventSignupBtn = document.getElementById("eventSignupBtn");
-        var eventSignupClose = document.getElementById("eventSignupClose");
-
-        var signupModal = document.getElementById("signupModal");
-        var signupClose = document.getElementById("signupClose");
-        var submitSignup = document.getElementById("submitSignup");
-
         var playVideoBtn = document.getElementById("playVideoBtn");
+        var myModal = document.getElementById("myModal");
+        var eventSignupModal = document.getElementById("eventSignupModal");
+        var signupModal = document.getElementById("signupModal");
+        var adminModal = document.getElementById("adminModal");
         var backgroundVideo = document.getElementById("backgroundVideo");
-
         var tableContainer = document.getElementById("tableContainer");
-
+        var submitSignup = document.getElementById("submitSignup");
+        var signupClose = document.getElementById("signupClose");
+        var eventSignupClose = document.getElementById("eventSignupClose");
+        var adminClose = document.getElementById("adminClose");
+        var adminBtn = document.getElementById("adminBtn");
+        var signupBtn = document.getElementById("signupBtn");
+        var cancelSignupBtn = document.getElementById("cancelSignupBtn");
+        var adminLoginBtn = document.getElementById("adminLoginBtn");
         var tenPeople = document.getElementById("tenPeople");
         var twentyFivePeople = document.getElementById("twentyFivePeople");
-
         var isPlaying = false;
 
         // 加入我们按钮点击事件
-        btn.onclick = function() {
-            modal.style.display = "flex";
+        joinUsBtn.onclick = function() {
+            myModal.style.display = "flex";
         }
 
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        // 模态窗口关闭事件
+        document.querySelectorAll('.close').forEach(function(elem) {
+            elem.onclick = function() {
+                this.parentElement.parentElement.style.display = "none";
             }
-        }
+        });
 
         // 活动报名按钮点击事件
         eventSignupBtn.onclick = function() {
             eventSignupModal.style.display = "flex";
         }
 
-        eventSignupClose.onclick = function() {
-            eventSignupModal.style.display = "none";
+        // 报名按钮点击事件
+        signupBtn.onclick = function() {
+            signupModal.style.display = "flex";
         }
 
-        // 报名按钮点击事件
+        // 管理员按钮点击事件
+        adminBtn.onclick = function() {
+            adminModal.style.display = "flex";
+        }
+
+        // 提交报名按钮点击事件
         submitSignup.onclick = function() {
             var roleId = document.getElementById("roleId").value;
             var roleClass = document.getElementById("roleClass").value;
             var role = document.getElementById("role").value;
 
-            // 根据选择的活动规模和职责更新表格
             // 此处可以添加逻辑根据用户输入更新表格内容
 
             signupModal.style.display = "none";
         }
 
-        signupClose.onclick = function() {
-            signupModal.style.display = "none";
+        // 撤销报名按钮点击事件
+        cancelSignupBtn.onclick = function() {
+            // 撤销上一次报名逻辑
+            // 每个IP一分钟仅限一次操作的逻辑
         }
 
         // 视频播放按钮点击事件
@@ -282,7 +323,7 @@
             tableHtml += '<tr><th>输出</th>';
             for (var i = 0; i < (size === 10 ? 6 : 17); i++) {
                 tableHtml += '<td>空</td>';
-                if (size === 25 && (i + 1) % 6 === 0) {
+                if (size === 25 && (i + 1) % 6 === 0 && i !== 16) {
                     tableHtml += '</tr><tr><th></th>';
                 }
             }
