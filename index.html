@@ -11,20 +11,29 @@
         body {
             margin: 0;
             padding: 0;
-            background: url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed;
-            background-size: cover;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 视频背景样式 */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         /* 按钮基础样式 */
         .button {
             padding: 10px 20px;
-            bottom: 20px; /* 距离页面底部 20 像素 */
-            right: 20px;  /* 距离页面右侧 20 像素 */
             margin: 10px;
             font-size: 16px;
             border: none;
@@ -40,6 +49,7 @@
             display: flex;
             flex-direction: column;
         }
+
         /* 不同按钮的颜色 */
         .button1 { background-color: #4CAF50; color: white; }
         .button2 { background-color: #008CBA; color: white; }
@@ -94,15 +104,20 @@
             cursor: pointer;
         }
 
-
     </style>
 </head>
 <body>
+    <!-- 视频背景 -->
+    <video class="background-video" autoplay muted loop>
+        <source src="https://www.example.com/path/to/your/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <!-- 按钮容器 -->
     <div class="button-container">
         <button class="button button1" id="joinUsBtn">加入我们</button>
-        <button class="button button2">活动报名</button>
-        <button class="button button3">暂未设置</button>
+        <button class="button button2">还没想好</button>
+        <button class="button button3">还没想好</button>
     </div>
 
     <!-- 模态窗口 -->
