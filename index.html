@@ -18,6 +18,8 @@
             flex-direction: column;
             overflow: hidden;
             position: relative;
+            background: url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
 
         /* 视频背景的样式 */
@@ -29,6 +31,7 @@
             height: 100%;
             object-fit: cover; /* 确保视频覆盖整个背景区域 */
             z-index: -1; /* 确保视频在内容下面 */
+            display: none; /* 初始时隐藏视频 */
         }
 
         /* 按钮基础样式 */
@@ -108,7 +111,7 @@
 </head>
 <body>
     <!-- 视频背景 -->
-    <video class="background-video" id="backgroundVideo" autoplay loop muted>
+    <video class="background-video" id="backgroundVideo" autoplay muted>
         <source src="https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/96/65/824766596/824766596-1-208.mp4?e=ig8euxZM2rNcNbhBnwdVhwdlhzU3hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1721727474&gen=playurlv2&os=bcache&oi=3736776303&trid=0000a3389de7f21b44b2af879e5e99008082O&mid=0&platform=html5&og=hw&upsig=df0f73498b58f3dd57cde50eff07218b&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=63207&bvc=vod&nettype=1&orderid=0,3&buvid=&build=7330300&f=O_0_0&bw=358892&logo=80000000" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -169,6 +172,15 @@
         volumeOffBtn.onclick = function() {
             volumeModal.style.display = "none";
         }
+
+        // 视频播放结束后的处理
+        backgroundVideo.onended = function() {
+            // 隐藏视频
+            backgroundVideo.style.display = "none";
+            // 恢复初始背景
+            document.body.style.background = "url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed";
+            document.body.style.backgroundSize = "cover";
+        };
 
         // 点击关闭按钮时隐藏模态窗口
         for (var i = 0; i < span.length; i++) {
