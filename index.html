@@ -140,18 +140,36 @@
         var span = document.getElementsByClassName("close")[0];
         var backgroundVideo = document.getElementById("backgroundVideo");
 
+        // 初始化按钮文本
+        var isPlaying = false;
+
         // 点击“加入我们”按钮时显示模态窗口
         btn.onclick = function() {
             modal.style.display = "flex";
         }
 
-        // 点击“播放视频”按钮时显示视频播放器
+        // 点击“播放视频”按钮时播放/停止视频
         playVideoBtn.onclick = function() {
-            // 显示视频播放器并播放
-            backgroundVideo.style.display = "block";
-            backgroundVideo.play();
-            // 设置背景图片为透明
-            document.body.style.background = "transparent";
+            if (!isPlaying) {
+                // 显示视频播放器并播放
+                backgroundVideo.style.display = "block";
+                backgroundVideo.play();
+                // 设置背景图片为透明
+                document.body.style.background = "transparent";
+                // 更改按钮文本为“停止播放”
+                playVideoBtn.textContent = "停止播放";
+                isPlaying = true;
+            } else {
+                // 停止视频播放并隐藏视频播放器
+                backgroundVideo.pause();
+                backgroundVideo.style.display = "none";
+                // 恢复初始背景
+                document.body.style.background = "url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed";
+                document.body.style.backgroundSize = "cover";
+                // 更改按钮文本为“播放视频”
+                playVideoBtn.textContent = "播放视频";
+                isPlaying = false;
+            }
         }
 
         // 视频播放结束后的处理
@@ -161,6 +179,9 @@
             // 恢复初始背景
             document.body.style.background = "url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed";
             document.body.style.backgroundSize = "cover";
+            // 更改按钮文本为“播放视频”
+            playVideoBtn.textContent = "播放视频";
+            isPlaying = false;
         };
 
         // 点击关闭按钮时隐藏模态窗口
