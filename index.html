@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活动报名系统</title>
-    <link rel="icon" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg" type="image/x-icon"/>
+    <title>超越巅峰</title>
+    <!-- 使用 JPG 图标（可以将此图像转换为 ICO 格式以获得更好的兼容性） -->
+    <link rel="icon" type="image/jpeg" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg"/>
     <style>
-        /* 样式定义 */
+        /* 页面背景及主体布局 */
         body {
             margin: 0;
             padding: 0;
@@ -19,8 +20,11 @@
             flex-direction: column;
         }
 
+        /* 按钮基础样式 */
         .button {
             padding: 10px 20px;
+            bottom: 20px; /* 距离页面底部 20 像素 */
+            right: 20px;  /* 距离页面右侧 20 像素 */
             margin: 10px;
             font-size: 16px;
             border: none;
@@ -28,18 +32,20 @@
             cursor: pointer;
         }
 
+         /* 按钮容器，放置在右上角 */
+        .button-container {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 不同按钮的颜色 */
         .button1 { background-color: #4CAF50; color: white; }
         .button2 { background-color: #008CBA; color: white; }
         .button3 { background-color: #f44336; color: white; }
 
-        .button-container {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* 模态窗口的基础样式 */
         .modal {
             display: none;
             position: fixed;
@@ -54,6 +60,7 @@
             align-items: center;
         }
 
+        /* 模态窗口内容的样式 */
         .modal-content {
             background-color: white;
             margin: auto;
@@ -65,12 +72,13 @@
             text-align: center;
         }
 
-        .modal-content img {
-            width: 100%; /* 让图片的宽度适应模态框 */
-            height: auto; /* 高度自动调整以保持比例 */
-            border-radius: 10px; /* 圆角效果 */
+        /* 模态窗口中的图片样式 */
+        .modal img {
+            width: 100%;
+            border-radius: 10px;
         }
 
+        /* 关闭按钮的样式 */
         .close {
             color: #aaa;
             float: right;
@@ -78,6 +86,7 @@
             font-weight: bold;
         }
 
+        /* 关闭按钮的悬停样式 */
         .close:hover,
         .close:focus {
             color: black;
@@ -85,67 +94,18 @@
             cursor: pointer;
         }
 
-        .signup-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
 
-        .signup-table th, .signup-table td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
-            border-radius: 8px;
-        }
-
-        .signup-table th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .signup-table td {
-            background-color: #f2f2f2;
-        }
-
-        .form-input, .form-select {
-            margin: 10px 0;
-            padding: 10px;
-            width: calc(100% - 20px);
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: white;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .button-group button {
-            flex: 1;
-            margin: 0 5px;
-        }
-
-        #backgroundVideo {
-            display: none;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
     </style>
 </head>
 <body>
+    <!-- 按钮容器 -->
     <div class="button-container">
         <button class="button button1" id="joinUsBtn">加入我们</button>
-        <button class="button button2" id="eventSignupBtn">活动报名</button>
-        <button class="button button3" id="playVideoBtn">播放视频</button>
+        <button class="button button2">活动报名</button>
+        <button class="button button3">暂未设置</button>
     </div>
 
+    <!-- 模态窗口 -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -153,186 +113,28 @@
         </div>
     </div>
 
-    <div id="eventSignupModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="eventSignupClose">&times;</span>
-            <h2>选择活动规模</h2>
-            <button class="button" id="tenPeople">10人</button>
-            <button class="button" id="twentyFivePeople">25人</button>
-            <div id="tableContainer"></div>
-            <div class="button-group">
-                <button class="button button2" id="adminBtn">管理员模式</button>
-                <button class="button button1" id="signupBtn">报名</button>
-                <button class="button button3" id="cancelSignupBtn">撤销报名</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="signupClose">&times;</span>
-            <h2>报名</h2>
-            <input type="text" id="roleId" class="form-input" placeholder="角色ID">
-            <select id="roleClass" class="form-select">
-                <option value="法师">法师</option>
-                <option value="术士">术士</option>
-                <option value="盗贼">盗贼</option>
-                <option value="骑士">骑士</option>
-                <option value="萨满">萨满</option>
-                <option value="德鲁伊">德鲁伊</option>
-                <option value="牧师">牧师</option>
-                <option value="战士">战士</option>
-                <option value="猎人">猎人</option>
-            </select>
-            <select id="role" class="form-select">
-                <option value="坦克">坦克</option>
-                <option value="输出">输出</option>
-                <option value="治疗">治疗</option>
-            </select>
-            <button class="button button1" id="submitSignup">提交报名</button>
-        </div>
-    </div>
-
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="adminClose">&times;</span>
-            <h2>管理员模式</h2>
-            <input type="password" id="adminPassword" class="form-input" placeholder="请输入管理指令">
-            <button class="button button1" id="adminLoginBtn">登录</button>
-        </div>
-    </div>
-
-    <video id="backgroundVideo">
-        <source src="https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/96/65/824766596/824766596-1-208.mp4?e=ig8euxZM2rNcNbhBnwdVhwdlhzU3hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1721727474&gen=playurlv2&os=bcache&oi=3736776303&trid=0000a3389de7f21b44b2af879e5e99008082O&mid=0&platform=html5&og=hw&upsig=df0f73498b58f3dd57cde50eff07218b&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=63207&bvc=vod&nettype=1&orderid=0,3&buvid=&build=7330300&f=O_0_0&bw=358892&logo=80000000" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
+    <!-- JavaScript 代码 -->
     <script>
-        var joinUsBtn = document.getElementById("joinUsBtn");
-        var eventSignupBtn = document.getElementById("eventSignupBtn");
-        var playVideoBtn = document.getElementById("playVideoBtn");
-        var myModal = document.getElementById("myModal");
-        var eventSignupModal = document.getElementById("eventSignupModal");
-        var signupModal = document.getElementById("signupModal");
-        var adminModal = document.getElementById("adminModal");
-        var backgroundVideo = document.getElementById("backgroundVideo");
-        var tableContainer = document.getElementById("tableContainer");
-        var submitSignup = document.getElementById("submitSignup");
-        var signupClose = document.getElementById("signupClose");
-        var eventSignupClose = document.getElementById("eventSignupClose");
-        var adminClose = document.getElementById("adminClose");
-        var adminBtn = document.getElementById("adminBtn");
-        var signupBtn = document.getElementById("signupBtn");
-        var cancelSignupBtn = document.getElementById("cancelSignupBtn");
-        var adminLoginBtn = document.getElementById("adminLoginBtn");
-        var tenPeople = document.getElementById("tenPeople");
-        var twentyFivePeople = document.getElementById("twentyFivePeople");
-        var isPlaying = false;
+        // 获取模态窗口、按钮和关闭按钮的元素
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("joinUsBtn");
+        var span = document.getElementsByClassName("close")[0];
 
-        joinUsBtn.onclick = function() {
-            myModal.style.display = "flex";
+        // 点击“加入我们”按钮时显示模态窗口
+        btn.onclick = function() {
+            modal.style.display = "flex";
         }
 
-        document.querySelectorAll('.close').forEach(function(elem) {
-            elem.onclick = function() {
-                this.closest('.modal').style.display = "none";
+        // 点击关闭按钮时隐藏模态窗口
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // 点击模态窗口外部时隐藏模态窗口
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
-        });
-
-        document.querySelectorAll('.modal').forEach(function(modal) {
-            modal.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            }
-        });
-
-        eventSignupBtn.onclick = function() {
-            eventSignupModal.style.display = "flex";
-        }
-
-        signupBtn.onclick = function() {
-            signupModal.style.display = "flex";
-        }
-
-        adminBtn.onclick = function() {
-            adminModal.style.display = "flex";
-        }
-
-        submitSignup.onclick = function() {
-            var roleId = document.getElementById("roleId").value;
-            var roleClass = document.getElementById("roleClass").value;
-            var role = document.getElementById("role").value;
-
-            var table = document.querySelector(".signup-table");
-            if (table) {
-                var rows = table.querySelectorAll("tr");
-                rows.forEach(row => {
-                    var cells = row.querySelectorAll("td");
-                    cells.forEach(cell => {
-                        if (cell.innerText === "空") {
-                            cell.innerText = `${roleClass} - ${roleId} (${role})`;
-                            return;
-                        }
-                    });
-                });
-            }
-
-            signupModal.style.display = "none";
-        }
-
-        cancelSignupBtn.onclick = function() {
-            // 撤销报名逻辑
-        }
-
-        playVideoBtn.onclick = function() {
-            if (isPlaying) {
-                backgroundVideo.pause();
-                backgroundVideo.style.display = "none";
-                playVideoBtn.innerText = "播放视频";
-                isPlaying = false;
-            } else {
-                backgroundVideo.style.display = "block";
-                backgroundVideo.play();
-                playVideoBtn.innerText = "停止播放";
-                isPlaying = true;
-            }
-        }
-
-        backgroundVideo.onended = function() {
-            backgroundVideo.style.display = "none";
-            playVideoBtn.innerText = "播放视频";
-            isPlaying = false;
-        }
-
-        tenPeople.onclick = function() {
-            generateSignupTable(10);
-        }
-
-        twentyFivePeople.onclick = function() {
-            generateSignupTable(25);
-        }
-
-        function generateSignupTable(size) {
-            var tableHtml = '<table class="signup-table">';
-            
-            var roles = {
-                '坦克': size === 10 ? 2 : 2,
-                '输出': size === 10 ? 6 : 17,
-                '治疗': size === 10 ? 2 : 5,
-                '替补': size === 10 ? 5 : 7
-            };
-
-            for (var role in roles) {
-                tableHtml += '<tr><th>' + role + '</th>';
-                for (var i = 0; i < roles[role]; i++) {
-                    tableHtml += '<td>空</td>';
-                }
-                tableHtml += '</tr>';
-            }
-
-            tableHtml += '</table>';
-            tableContainer.innerHTML = tableHtml;
         }
     </script>
 </body>
