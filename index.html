@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活动报名系统</title>
+    <title>超越巅峰</title>
     <link rel="icon" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg" type="image/x-icon"/>
     <style>
         /* 全局样式 */
@@ -187,7 +187,6 @@
         var eventSignupClose = document.getElementById("eventSignupClose");
 
         var signupModal = document.getElementById("signupModal");
-        var signupBtn = document.getElementById("signupBtn");
         var signupClose = document.getElementById("signupClose");
         var submitSignup = document.getElementById("submitSignup");
 
@@ -195,13 +194,9 @@
         var backgroundVideo = document.getElementById("backgroundVideo");
 
         var tableContainer = document.getElementById("tableContainer");
-        var signupForm = document.getElementById("signupForm");
 
         var tenPeople = document.getElementById("tenPeople");
         var twentyFivePeople = document.getElementById("twentyFivePeople");
-
-        var adminBtn = document.getElementById("adminBtn");
-        var cancelSignupBtn = document.getElementById("cancelSignupBtn");
 
         var isPlaying = false;
 
@@ -287,6 +282,9 @@
             tableHtml += '<tr><th>输出</th>';
             for (var i = 0; i < (size === 10 ? 6 : 17); i++) {
                 tableHtml += '<td>空</td>';
+                if (size === 25 && (i + 1) % 6 === 0) {
+                    tableHtml += '</tr><tr><th></th>';
+                }
             }
             tableHtml += '</tr>';
 
