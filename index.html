@@ -4,31 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>超越巅峰</title>
-    <link rel="icon" type="image/jpeg" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg"/>
+    <link rel="icon" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg" type="image/jpg">
     <style>
         body {
             margin: 0;
             padding: 0;
+            background: url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed;
+            background-size: cover;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            background: url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed;
-            background-size: cover;
         }
 
-        .background-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            display: none;
+        .button-container {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .button {
@@ -38,14 +33,13 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .button1 { background-color: #4CAF50; color: white; }
         .button2 { background-color: #008CBA; color: white; }
         .button3 { background-color: #f44336; color: white; }
 
-        .modal, .signup-modal {
+        .modal, .event-signup-modal, .signup-modal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -57,20 +51,19 @@
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+        }
+
+        .modal-content, .signup-modal-content {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
             text-align: center;
         }
 
-        .modal-content {
-            background-color: white;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-        }
-
-        .modal img, .signup-modal img {
+        .modal img {
             width: 100%;
             border-radius: 10px;
         }
@@ -89,90 +82,48 @@
             cursor: pointer;
         }
 
-        .button-container {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            z-index: 1;
-        }
-
-        @media (max-width: 600px) {
-            .button {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-
-            .modal-content {
-                width: 95%;
-                max-width: 400px;
-            }
-
-            .close {
-                font-size: 24px;
-            }
-        }
-
-        .signup-modal {
+        .signup-form {
             display: none;
-            position: fixed;
-            z-index: 2;
-            left: 0;
-            top: 0;
+        }
+
+        table {
             width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        .signup-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
-            width: 90%;
-            max-width: 600px;
+        table, th, td {
+            border: 1px solid black;
         }
 
-        .signup-content h2 {
-            margin-top: 0;
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px; /* Added border-radius for table cells */
         }
 
-        .signup-content label {
-            display: block;
-            margin: 10px 0 5px;
+        .tank, .dps, .heal, .sub {
+            border-radius: 10px; /* Added border-radius for table cells */
         }
 
-        .signup-content input,
-        .signup-content select {
-            width: calc(100% - 20px);
-            padding: 8px;
-            margin: 5px 0 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .event-details {
+            margin-bottom: 20px;
         }
 
-        .signup-content .btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
+        @media screen and (max-width: 768px) {
+            .button-container {
+                flex-direction: row;
+                top: 20px;
+                bottom: auto;
+            }
 
-        .signup-content .btn-group button {
-            flex: 1;
-            margin: 5px;
+            .button {
+                margin: 5px;
+            }
         }
     </style>
 </head>
 <body>
-    <video class="background-video" id="backgroundVideo" autoplay muted>
-        <source src="https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/96/65/824766596/824766596-1-208.mp4?e=ig8euxZM2rNcNbhBnwdVhwdlhzU3hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1721727474&gen=playurlv2&os=bcache&oi=3736776303&trid=0000a3389de7f21b44b2af879e5e99008082O&mid=0&platform=html5&og=hw&upsig=df0f73498b58f3dd57cde50eff07218b&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=63207&bvc=vod&nettype=1&orderid=0,3&buvid=&build=7330300&f=O_0_0&bw=358892&logo=80000000" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
     <div class="button-container">
         <button class="button button1" id="joinUsBtn">加入我们</button>
         <button class="button button2" id="eventSignupBtn">活动报名</button>
@@ -186,51 +137,77 @@
         </div>
     </div>
 
-    <div id="eventSignupModal" class="signup-modal">
-        <div class="signup-content">
-            <span class="close" id="eventSignupClose">&times;</span>
+    <div id="eventSignupModal" class="event-signup-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
             <h2>选择活动规模</h2>
-            <button class="button" id="tenPeople">十人</button>
-            <button class="button" id="twentyFivePeople">二十五人</button>
-
-            <div id="signupForm" style="display: none;">
-                <h2>报名表</h2>
-                <div id="eventDetails" style="margin-bottom: 20px;"></div>
+            <button class="button button1" id="tenPeople">十人</button>
+            <button class="button button1" id="twentyFivePeople">二十五人</button>
+            <div class="signup-form" id="signupForm">
+                <div id="eventDetails" class="event-details"></div>
                 <div id="tableContainer"></div>
-
-                <div class="btn-group">
-                    <button class="button" id="adminBtn">管理员</button>
-                    <button class="button" id="signupBtn">报名</button>
-                    <button class="button" id="cancelSignupBtn">撤销报名</button>
-                </div>
+                <button class="button button1" id="adminBtn">管理员</button>
+                <button class="button button1" id="signupBtn">报名</button>
+                <button class="button button1" id="cancelSignupBtn">撤销报名</button>
             </div>
         </div>
     </div>
 
+    <div id="signupModal" class="signup-modal">
+        <div class="signup-modal-content">
+            <span class="close">&times;</span>
+            <h2>报名</h2>
+            <label for="roleId">角色ID:</label>
+            <input type="text" id="roleId"><br>
+            <label for="roleClass">职业:</label>
+            <select id="roleClass">
+                <option value="法师">法师</option>
+                <option value="术士">术士</option>
+                <option value="盗贼">盗贼</option>
+                <option value="骑士">骑士</option>
+                <option value="萨满">萨满</option>
+                <option value="德鲁伊">德鲁伊</option>
+                <option value="牧师">牧师</option>
+                <option value="战士">战士</option>
+                <option value="猎人">猎人</option>
+            </select><br>
+            <label for="role">职责:</label>
+            <select id="role">
+                <option value="坦克">坦克</option>
+                <option value="输出">输出</option>
+                <option value="治疗">治疗</option>
+            </select><br>
+            <button class="button button1" id="submitSignup">提交</button>
+        </div>
+    </div>
+
+    <video id="backgroundVideo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;" src="https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/96/65/824766596/824766596-1-208.mp4?e=ig8euxZM2rNcNbhBnwdVhwdlhzU3hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1721727474&gen=playurlv2&os=bcache&oi=3736776303&trid=0000a3389de7f21b44b2af879e5e99008082O&mid=0&platform=html5&og=hw&upsig=df0f73498b58f3dd57cde50eff07218b&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=63207&bvc=vod&nettype=1&orderid=0,3&buvid=&build=7330300&f=O_0_0&bw=358892&logo=80000000"></video>
+
     <script>
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("joinUsBtn");
-        var eventSignupBtn = document.getElementById("eventSignupBtn");
-        var playVideoBtn = document.getElementById("playVideoBtn");
         var span = document.getElementsByClassName("close")[0];
-        var backgroundVideo = document.getElementById("backgroundVideo");
-        var isPlaying = false;
 
         var eventSignupModal = document.getElementById("eventSignupModal");
-        var eventSignupClose = document.getElementById("eventSignupClose");
+        var eventSignupBtn = document.getElementById("eventSignupBtn");
+        var eventSignupClose = eventSignupModal.getElementsByClassName("close")[0];
+
+        var signupForm = document.getElementById("signupForm");
         var tenPeople = document.getElementById("tenPeople");
         var twentyFivePeople = document.getElementById("twentyFivePeople");
-        var signupForm = document.getElementById("signupForm");
         var tableContainer = document.getElementById("tableContainer");
+
         var adminBtn = document.getElementById("adminBtn");
         var signupBtn = document.getElementById("signupBtn");
         var cancelSignupBtn = document.getElementById("cancelSignupBtn");
-        var eventDetails = document.getElementById("eventDetails");
 
-        var roles = ["坦克", "输出", "治疗"];
-        var classes = ["法师", "术士", "盗贼", "骑士", "萨满", "德鲁伊", "牧师", "战士", "猎人"];
-        var adminCode = "bengDDD";
-        var lastSignup = null;
+        var signupModal = document.getElementById("signupModal");
+        var signupClose = signupModal.getElementsByClassName("close")[0];
+        var submitSignup = document.getElementById("submitSignup");
+
+        var backgroundVideo = document.getElementById("backgroundVideo");
+        var playVideoBtn = document.getElementById("playVideoBtn");
+        var isPlaying = false;
 
         btn.onclick = function() {
             modal.style.display = "flex";
@@ -240,132 +217,105 @@
             modal.style.display = "none";
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        playVideoBtn.onclick = function() {
-            if (isPlaying) {
-                backgroundVideo.pause();
-                backgroundVideo.style.display = "none";
-                document.body.style.background = "url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed";
-                playVideoBtn.textContent = "播放视频";
-            } else {
-                backgroundVideo.style.display = "block";
-                backgroundVideo.play();
-                document.body.style.background = "none";
-                playVideoBtn.textContent = "停止播放";
-            }
-            isPlaying = !isPlaying;
-        }
-
-        backgroundVideo.onended = function() {
-            backgroundVideo.pause();
-            backgroundVideo.style.display = "none";
-            document.body.style.background = "url('https://s3.bmp.ovh/imgs/2024/07/23/628dcd621e5cab9d.jpg') no-repeat center center fixed";
-            playVideoBtn.textContent = "播放视频";
-            isPlaying = false;
-        }
-
         eventSignupBtn.onclick = function() {
             eventSignupModal.style.display = "flex";
         }
 
         eventSignupClose.onclick = function() {
             eventSignupModal.style.display = "none";
-            signupForm.style.display = "none";
         }
 
         tenPeople.onclick = function() {
-            setupSignupForm(10);
+            showTable(10);
         }
 
         twentyFivePeople.onclick = function() {
-            setupSignupForm(25);
-        }
-
-        function setupSignupForm(size) {
-            tableContainer.innerHTML = "";
-            signupForm.style.display = "block";
-
-            var table = document.createElement("table");
-            var tbody = document.createElement("tbody");
-
-            var tankCount = size === 10 ? 2 : 3;
-            var dpsCount = size === 10 ? 6 : 17;
-            var healCount = size === 10 ? 2 : 5;
-            var subCount = 5;
-
-            var createRow = function(role, count) {
-                var tr = document.createElement("tr");
-                var td = document.createElement("td");
-                td.colSpan = count;
-                td.textContent = role;
-                tr.appendChild(td);
-
-                for (var i = 0; i < count; i++) {
-                    var td = document.createElement("td");
-                    td.className = role.toLowerCase();
-                    td.textContent = "空";
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
-            };
-
-            createRow("坦克", tankCount);
-            createRow("输出", dpsCount);
-            createRow("治疗", healCount);
-            createRow("替补", subCount);
-
-            table.appendChild(tbody);
-            tableContainer.appendChild(table);
+            showTable(25);
         }
 
         adminBtn.onclick = function() {
-            var code = prompt("请输入管理员指令:");
-            if (code === adminCode) {
+            var command = prompt("请输入管理员指令:");
+            if (command === "bengDDD") {
                 var eventTime = prompt("请输入活动时间:");
                 var eventType = prompt("请输入活动类型:");
-                eventDetails.innerHTML = "<p>活动时间: " + eventTime + "</p><p>活动类型: " + eventType + "</p>";
+                document.getElementById("eventDetails").innerText = `活动时间: ${eventTime} | 活动类型: ${eventType}`;
+                // Enable admin mode (e.g., add delete buttons)
             } else {
-                alert("管理员指令错误!");
+                alert("指令错误");
             }
         }
 
         signupBtn.onclick = function() {
-            var id = prompt("请输入角色ID:");
-            var roleClass = prompt("选择职业: " + classes.join(", "));
-            var role = prompt("选择职责: " + roles.join(", "));
-            if (id && classes.includes(roleClass) && roles.includes(role)) {
-                var slots = document.querySelectorAll("." + role.toLowerCase());
-                for (var slot of slots) {
-                    if (slot.textContent === "空") {
-                        slot.textContent = id + " (" + roleClass + ")";
-                        lastSignup = slot;
-                        break;
-                    }
-                }
-            } else {
-                alert("输入无效，请重试!");
-            }
+            signupModal.style.display = "flex";
+        }
+
+        signupClose.onclick = function() {
+            signupModal.style.display = "none";
         }
 
         cancelSignupBtn.onclick = function() {
-            if (lastSignup) {
-                lastSignup.textContent = "空";
-                lastSignup = null;
+            // Implement cancellation logic with IP limitation
+        }
+
+        submitSignup.onclick = function() {
+            var roleId = document.getElementById("roleId").value;
+            var roleClass = document.getElementById("roleClass").value;
+            var role = document.getElementById("role").value;
+            // Implement signup logic
+            signupModal.style.display = "none";
+        }
+
+        playVideoBtn.onclick = function() {
+            if (!isPlaying) {
+                backgroundVideo.style.display = "block";
+                backgroundVideo.play();
+                playVideoBtn.textContent = "停止播放";
+                isPlaying = true;
             } else {
-                alert("没有找到最近一次报名或已经被撤销!");
+                backgroundVideo.style.display = "none";
+                backgroundVideo.pause();
+                backgroundVideo.currentTime = 0;
+                playVideoBtn.textContent = "播放视频";
+                isPlaying = false;
             }
         }
 
+        backgroundVideo.onended = function() {
+            backgroundVideo.style.display = "none";
+            isPlaying = false;
+            playVideoBtn.textContent = "播放视频";
+        }
+
         window.onclick = function(event) {
-            if (event.target == eventSignupModal) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            } else if (event.target == eventSignupModal) {
                 eventSignupModal.style.display = "none";
-                signupForm.style.display = "none";
+            } else if (event.target == signupModal) {
+                signupModal.style.display = "none";
             }
+        }
+
+        function showTable(size) {
+            var html = '<table>';
+            if (size === 10) {
+                html += '<tr><th>坦克</th><td class="tank">空空</td><td class="tank">空空</td></tr>';
+                html += '<tr><th>输出</th><td class="dps">空空</td><td class="dps">空空</td><td class="dps">空空</td><td class="dps">空空</td><td class="dps">空空</td><td class="dps">空空</td></tr>';
+                html += '<tr><th>治疗</th><td class="heal">空空</td><td class="heal">空空</td></tr>';
+                html += '<tr><th>替补</th><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td></tr>';
+            } else if (size === 25) {
+                html += '<tr><th>坦克</th><td class="tank">空空</td><td class="tank">空空</td><td class="tank">空空</td></tr>';
+                html += '<tr><th>输出</th>';
+                for (var i = 0; i < 17; i++) {
+                    html += '<td class="dps">空空</td>';
+                }
+                html += '</tr>';
+                html += '<tr><th>治疗</th><td class="heal">空空</td><td class="heal">空空</td><td class="heal">空空</td><td class="heal">空空</td><td class="heal">空空</td></tr>';
+                html += '<tr><th>替补</th><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td><td class="sub">空空</td></tr>';
+            }
+            html += '</table>';
+            tableContainer.innerHTML = html;
+            signupForm.style.display = 'block';
         }
     </script>
 </body>
