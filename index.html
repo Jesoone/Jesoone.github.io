@@ -6,6 +6,7 @@
     <title>活动报名系统</title>
     <link rel="icon" href="https://s3.bmp.ovh/imgs/2024/07/23/66607e405a4cd72c.jpg" type="image/x-icon"/>
     <style>
+        /* 样式定义 */
         body {
             margin: 0;
             padding: 0;
@@ -64,6 +65,12 @@
             text-align: center;
         }
 
+        .modal-content img {
+            width: 100%; /* 让图片的宽度适应模态框 */
+            height: auto; /* 高度自动调整以保持比例 */
+            border-radius: 10px; /* 圆角效果 */
+        }
+
         .close {
             color: #aaa;
             float: right;
@@ -80,37 +87,27 @@
 
         .signup-table {
             width: 100%;
-            margin: 20px 0;
-            border-collapse: separate;
-            border-spacing: 10px;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
         .signup-table th, .signup-table td {
-            padding: 10px;
-            background-color: #f2f2f2;
-            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #ddd;
             text-align: center;
+            border-radius: 8px;
         }
 
         .signup-table th {
-            background-color: #e0e0e0;
-            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
         }
 
         .signup-table td {
-            background-color: #d0d0d0;
+            background-color: #f2f2f2;
         }
 
-        .form-input {
-            margin: 10px 0;
-            padding: 10px;
-            width: calc(100% - 20px);
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .form-select {
+        .form-input, .form-select {
             margin: 10px 0;
             padding: 10px;
             width: calc(100% - 20px);
@@ -267,7 +264,19 @@
             var roleClass = document.getElementById("roleClass").value;
             var role = document.getElementById("role").value;
 
-            // 这里可以添加逻辑来更新表格内容
+            var table = document.querySelector(".signup-table");
+            if (table) {
+                var rows = table.querySelectorAll("tr");
+                rows.forEach(row => {
+                    var cells = row.querySelectorAll("td");
+                    cells.forEach(cell => {
+                        if (cell.innerText === "空") {
+                            cell.innerText = `${roleClass} - ${roleId} (${role})`;
+                            return;
+                        }
+                    });
+                });
+            }
 
             signupModal.style.display = "none";
         }
@@ -311,7 +320,7 @@
                 '坦克': size === 10 ? 2 : 2,
                 '输出': size === 10 ? 6 : 17,
                 '治疗': size === 10 ? 2 : 5,
-                '替补': 5
+                '替补': size === 10 ? 5 : 7
             };
 
             for (var role in roles) {
