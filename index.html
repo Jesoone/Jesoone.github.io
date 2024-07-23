@@ -27,9 +27,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* 使视频在内容下面 */
-            pointer-events: none; /* 防止点击事件影响视频 */
-            object-fit: cover; /* 使视频覆盖整个背景区域 */
+            object-fit: cover; /* 确保视频覆盖整个背景区域 */
+            z-index: -1; /* 确保视频在内容下面 */
         }
 
         /* 按钮基础样式 */
@@ -108,8 +107,11 @@
     </style>
 </head>
 <body>
-    <!-- Veed 视频背景 -->
-    <iframe class="background-video" id="backgroundVideo" src="https://www.veed.io/embed/d5aefa01-4c79-4f0b-8c43-de6cf716e1bd?autoplay=1&muted=1" frameborder="0" allowfullscreen></iframe>
+    <!-- 视频背景 -->
+    <video class="background-video" id="backgroundVideo" autoplay loop muted>
+        <source src="https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/96/65/824766596/824766596-1-208.mp4?e=ig8euxZM2rNcNbhBnwdVhwdlhzU3hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1721727474&gen=playurlv2&os=bcache&oi=3736776303&trid=0000a3389de7f21b44b2af879e5e99008082O&mid=0&platform=html5&og=hw&upsig=df0f73498b58f3dd57cde50eff07218b&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&cdnid=63207&bvc=vod&nettype=1&orderid=0,3&buvid=&build=7330300&f=O_0_0&bw=358892&logo=80000000" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
     <!-- 按钮容器 -->
     <div class="button-container">
@@ -159,7 +161,7 @@
 
         // 点击“开启音量”按钮时取消静音
         volumeOnBtn.onclick = function() {
-            backgroundVideo.src = backgroundVideo.src.replace("muted=1", "muted=0");
+            backgroundVideo.muted = false;
             volumeModal.style.display = "none";
         }
 
