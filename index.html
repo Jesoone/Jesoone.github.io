@@ -120,17 +120,7 @@
     <div class="button-container">
         <button class="button button1" id="joinUsBtn">加入我们</button>
         <button class="button button2" id="openWxMiniApp">打开微信小程序</button>
-        <button class="button button3">暂未设置</button>
-    </div>
-
-    <!-- 音量选择提示模态窗口 -->
-    <div id="volumeModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>是否开启音量？</p>
-            <button id="volumeOn" class="button button1">开启音量</button>
-            <button id="volumeOff" class="button button2">保持静音</button>
-        </div>
+        <button class="button button3" id="playVideoBtn">播放视频</button>
     </div>
 
     <!-- 加入我们模态窗口 -->
@@ -143,34 +133,25 @@
 
     <!-- JavaScript 代码 -->
     <script>
-        // 获取模态窗口、按钮和关闭按钮的元素
+        // 获取模态窗口、按钮和视频元素的引用
         var modal = document.getElementById("myModal");
-        var volumeModal = document.getElementById("volumeModal");
         var btn = document.getElementById("joinUsBtn");
-        var volumeOnBtn = document.getElementById("volumeOn");
-        var volumeOffBtn = document.getElementById("volumeOff");
-        var span = document.getElementsByClassName("close");
+        var playVideoBtn = document.getElementById("playVideoBtn");
+        var span = document.getElementsByClassName("close")[0];
         var backgroundVideo = document.getElementById("backgroundVideo");
-
-        // 显示音量选择模态窗口
-        window.onload = function() {
-            volumeModal.style.display = "flex";
-        }
 
         // 点击“加入我们”按钮时显示模态窗口
         btn.onclick = function() {
             modal.style.display = "flex";
         }
 
-        // 点击“开启音量”按钮时取消静音
-        volumeOnBtn.onclick = function() {
-            backgroundVideo.muted = false;
-            volumeModal.style.display = "none";
-        }
-
-        // 点击“保持静音”按钮时保持静音
-        volumeOffBtn.onclick = function() {
-            volumeModal.style.display = "none";
+        // 点击“播放视频”按钮时显示视频播放器
+        playVideoBtn.onclick = function() {
+            // 显示视频播放器并播放
+            backgroundVideo.style.display = "block";
+            backgroundVideo.play();
+            // 设置背景图片为透明
+            document.body.style.background = "transparent";
         }
 
         // 视频播放结束后的处理
@@ -183,16 +164,14 @@
         };
 
         // 点击关闭按钮时隐藏模态窗口
-        for (var i = 0; i < span.length; i++) {
-            span[i].onclick = function() {
-                this.parentElement.parentElement.style.display = "none";
-            }
+        span.onclick = function() {
+            modal.style.display = "none";
         }
 
         // 点击模态窗口外部时隐藏模态窗口
         window.onclick = function(event) {
-            if (event.target == modal || event.target == volumeModal) {
-                event.target.style.display = "none";
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         }
     </script>
